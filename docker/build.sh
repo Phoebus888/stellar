@@ -15,5 +15,7 @@ docker build -t stellar:${tag} .
 
 docker tag stellar:${tag} docker.kxdigit.com/n9e/stellar:${tag}
 docker push docker.kxdigit.com/n9e/stellar:${tag}
+#docker tag stellar:${tag} ghcr.io/caapap/stellar:${tag}
+#docker push ghcr.io/caapap/stellar:${tag}
 
 rm -rf n9e pub
