@@ -1,0 +1,3 @@
+[submodule "stellar-fe"]
+	path = stellar-fe
+	url = https://github.com/caapap/stellar-fe.git

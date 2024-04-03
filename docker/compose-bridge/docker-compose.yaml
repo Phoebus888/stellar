@@ -1,7 +1,7 @@
 version: "3.7"
 
 networks:
-  nightingale:
+  stellar:
     driver: bridge
 
 services:
@@ -18,7 +18,7 @@ services:
       - ../initsql:/docker-entrypoint-initdb.d/
       - ./etc-mysql/my.cnf:/etc/my.cnf
     networks:
-      - nightingale
+      - stellar 
     ports:
       - "3306:3306"
 
@@ -30,7 +30,7 @@ services:
     environment:
       TZ: Asia/Shanghai
     networks:
-      - nightingale
+      - stellar 
     ports:
       - "6379:6379"
 
@@ -65,12 +65,12 @@ services:
     ports:
       - "8428:8428"
     networks:
-      - nightingale
+      - stellar 
     command:
       - "--loggerTimezone=Asia/Shanghai"
 
   ibex:
-    image: flashcatcloud/ibex:v1.2.0
+    image: ghcr.io/caapap/ibex:v1.2.0
     container_name: ibex
     hostname: ibex
     restart: always
@@ -81,7 +81,7 @@ services:
     volumes:
       - ./etc-ibex:/app/etc
     networks:
-      - nightingale
+      - stellar 
     ports:
       - "10090:10090"
       - "20090:20090"
@@ -91,9 +91,9 @@ services:
       sh -c "/app/ibex server"
 
   nightingale:
-    image: flashcatcloud/nightingale:latest
-    container_name: nightingale
-    hostname: nightingale
+    image: ghcr.io/caapap/stellar:latest
+    container_name: stellar 
+    hostname: stellar 
     restart: always
     environment:
       GIN_MODE: release
@@ -102,7 +102,7 @@ services:
     volumes:
       - ./etc-nightingale:/app/etc
     networks:
-      - nightingale
+      - stellar 
     ports:
       - "17000:17000"
     depends_on:
@@ -113,7 +113,7 @@ services:
       sh -c "/app/n9e"
 
   categraf:
-    image: "flashcatcloud/categraf:latest"
+    image: "ghcr.io/caapap/categraf:latest"
     container_name: "categraf"
     hostname: "categraf01"
     restart: always
@@ -122,11 +122,11 @@ services:
       HOST_PROC: /hostfs/proc
       HOST_SYS: /hostfs/sys
       HOST_MOUNT_PREFIX: /hostfs
-      WAIT_HOSTS: nightingale:17000, ibex:20090
+      WAIT_HOSTS: stellar:17000, ibex:20090
     volumes:
       - ./etc-categraf:/etc/categraf/conf
       - /:/hostfs
     networks:
-      - nightingale
+      - stellar 
     depends_on:
-      - nightingale
+      - stellar 
